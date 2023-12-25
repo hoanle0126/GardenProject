@@ -1,0 +1,16 @@
+@layer components {
+  .verified {
+    @apply flex-center h-screen w-full flex-col;
+
+    &__content {
+      @apply w-[30%] flex shadow-2xl flex-col;
+      &--title {
+        @apply text-lg bg-white flex-center p-8 rounded-t-lg;
+      }
+
+      &--link {
+        @apply text-lg flex-center bg-[#333] text-white p-8 rounded-b-lg;
+      }
+    }
+  }
+}

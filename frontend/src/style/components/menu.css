@@ -1,0 +1,23 @@
+@layer components {
+    .menu {
+
+        &__info {
+            @apply  p-[10px] flex items-center justify-center border-b-[1px];
+
+            span {
+                @apply text-sm px-[10px]
+            }
+        }
+        &__item {
+            @apply flex gap-5 items-center justify-center;
+
+            svg {
+                @apply text-sm
+            }
+
+            span {
+                @apply text-sm
+            }
+        }
+    }
+}

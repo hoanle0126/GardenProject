@@ -1,0 +1,34 @@
+@layer components {
+  .admin {
+    @apply flex flex-col w-full h-[calc(100vh-60px)] relative mt-[60px];
+
+    &__header {
+      @apply h-[60px] fixed top-0 w-full duration-[100ms] bg-white dark:bg-dark flex justify-between items-center pl-[10px] pr-[30px] shadow-lg gap-[21px] z-[1000];
+
+      &--left {
+        &--title {
+          @apply flex items-end text-[2.4rem] font-[600] text-green;
+          svg {
+            @apply w-[50px] h-[50px];
+          }
+        }
+      }
+
+      &--right {
+        @apply flex items-center h-full justify-end gap-4;
+      }
+    }
+    &__side {
+      @apply duration-300 bg-white h-[calc(100vh-60px)] z-[500] shadow-lg flex flex-col items-center  gap-[20px] fixed;
+      .active {
+        @apply bg-green/10 text-green;
+      }
+      &--content {
+        @apply absolute top-[20px] w-[calc(100%-40px)] duration-[300ms] flex flex-col gap-[10px];
+        &-item {
+          @apply h-[40px] rounded-lg w-full hover:bg-green/10 flex justify-start items-center p-[10px] text-sm gap-[10px] font-[600] text-dark hover:text-green duration-300;
+        }
+      }
+    }
+  }
+}

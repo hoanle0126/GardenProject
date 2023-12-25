@@ -1,0 +1,49 @@
+@layer components {
+  .form {
+    @apply flex-center flex-col w-[40%] h-full gap-[21px] relative;
+
+    &__title {
+      @apply text-md font-[600] mb-[-16px];
+
+      &--sub {
+        @apply text-sm font-[600] text-gray-dark;
+      }
+    }
+
+    &__input {
+      @apply border w-[100%] h-[40px] rounded-lg p-[10px] text-sm;
+    }
+
+    &__forgot {
+      @apply text-sm mt-[-16px] w-[100%] text-right text-green font-[500];
+    }
+
+    &__submit {
+      @apply w-[100%] h-[40px] text-sm font-[600];
+    }
+
+    &__link {
+      @apply text-sm font-[500] text-gray-dark;
+
+      a {
+        @apply text-green;
+      }
+    }
+
+    &__error {
+      @apply text-sm text-red font-bold
+    }
+
+    &__footer {
+      @apply flex w-[calc(100vw-70px)] absolute bottom-[10px] text-sm justify-between font-[600];
+
+      &--languague {
+        @apply flex items-center gap-[5px];
+      }
+
+      &--more {
+        @apply text-green flex gap-4
+      }
+    }
+  }
+}

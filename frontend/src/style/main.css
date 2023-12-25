@@ -1,0 +1,31 @@
+ @import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+/* Base */
+@import "./base/base.css";
+@import "./base/theme.css";
+/* Layout */
+@import "./layouts/auth.css";
+@import "./layouts/user.css";
+@import "./layouts/admin.css";
+@import "./layouts/footer.css";
+/* Utilities */
+@import "./utilities/flex-center.css";
+@import "./utilities/absolute-center.css";
+@import "./utilities/button.css";
+@import "./utilities/hidden.css";
+@import "./utilities/tab.css";
+@import "./utilities/table.css";
+/* Components */
+@import "./components/form.css";
+@import "./components/verified.css";
+@import "./components/menu.css";
+@import "./components/header.css";
+@import "./components/title-card.css";
+@import "./components/card.css";
+/* Pages */
+@import "./pages/ecommerce.css";
+@import "./pages/dashboard.css";
+@import "./pages/product.css";
+@import "./pages/user.css";
+@import "./pages/calendar.css";

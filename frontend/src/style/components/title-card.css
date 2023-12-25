@@ -1,0 +1,10 @@
+@layer utilities {
+    .title-card {
+        @apply h-[60px] p-[20px] w-fit bg-green flex items-center text-white absolute top-[-10px] left-[-10px] rounded-tr-lg;
+
+        &::before {
+          @apply absolute top-[60px] left-[-10px] w-[20px] h-[20px] bg-green-dark content-[""];
+          clip-path: polygon(50% 0%, 100% 0, 100% 50%);
+        }
+    }
+}

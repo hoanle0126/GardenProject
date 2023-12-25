@@ -1,0 +1,5 @@
+@layer utilities {
+    .absolute-x-center {
+        @apply absolute translate-x-[-50%] left-[50%];
+    }
+}

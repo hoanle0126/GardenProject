@@ -1,0 +1,48 @@
+@layer components {
+  .user {
+    @apply w-full min-h-[calc(100vh-theme(height.header-height))] mt-[theme(height.header-height)];
+
+    &__header {
+      @apply font-[600] h-[50px] p-[10px] flex items-center justify-between border-b-[1px] border-green;
+
+      &--title {
+        @apply text-lg flex items-center gap-1 text-green;
+
+        img {
+          @apply w-[30px];
+        }
+      }
+
+      &--login {
+        @apply flex items-center gap-7;
+
+        img {
+          @apply w-[40px] h-[40px] rounded-full;
+        }
+
+        svg {
+          @apply text-[2.3rem] text-green;
+        }
+      }
+
+      &--guest {
+        @apply flex items-center gap-6;
+
+        &--signin {
+          /* @apply btn btn-primary; */
+        }
+
+        &--signup {
+          /* @apply btn btn-primary-outline; */
+        }
+      }
+    }
+
+    &__content {
+      @apply flex justify-center;
+      &--item {
+        @apply w-[1050px] p-[10px];
+      }
+    }
+  }
+}

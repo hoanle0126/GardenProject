@@ -1,0 +1,9 @@
+@layer components {
+    .product {
+        @apply py-[30px] px-[60px] flex flex-col gap-[30px];
+
+        &__content {
+            @apply w-full card p-[20px];
+        }
+    }
+}

@@ -1,0 +1,14 @@
+@layer components {
+  .auth {
+    @apply flex w-full h-screen relative;
+
+    &__form {
+      @apply flex-1 bg-white relative flex-center;
+    }
+
+    &__title{
+      @apply w-[50%] bg-green;
+    }
+
+  }
+}

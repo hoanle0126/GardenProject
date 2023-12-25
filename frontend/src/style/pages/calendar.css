@@ -1,0 +1,5 @@
+@layer components {
+    .calendar{
+        @apply py-[30px] px-[60px] flex flex-col gap-[30px];
+    }
+}

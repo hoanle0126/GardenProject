@@ -1,0 +1,21 @@
+@layer utilities {
+  .btn {
+    @apply px-[18px] py-[7px] rounded-lg text-sm  duration-300;
+
+    &-primary {
+      @apply bg-green text-white border-[2px] border-green;
+
+      &:hover {
+        @apply bg-green-dark;
+      }
+
+      &-outline {
+        @apply text-green border-[2px] border-green bg-white dark:bg-black;
+
+        &:hover {
+            @apply bg-green-light text-white;
+        }
+      }
+    }
+  }
+}
