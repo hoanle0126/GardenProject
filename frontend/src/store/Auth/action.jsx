@@ -8,26 +8,35 @@ import {
   REGISTER_USER_SUCCESS,
 } from "./actionType";
 import { axiosClient } from "~/axios/AxiosClient";
+import { LoadingRouter } from "~/Router/LoadingRouter";
 
-export const loginUser = (loginData) => async (dispatch) => {
-  dispatch({ type: LOGIN_USER_REQUEST });
-  try {
-    const { data } = await axiosClient.post(
-      `${API_BASE_URL}/signin`,
-      loginData
-    );
-    console.log("redux", data.user);
-    if (data.token) {
-      localStorage.setItem("token", data.token);
+export const loginUser =
+  (loginData, navigate, setRouter) => async (dispatch) => {
+    dispatch({ type: LOGIN_USER_REQUEST });
+    try {
+      const { data } = await axiosClient.post(
+        `${API_BASE_URL}/signin`,
+        loginData
+      );
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+      console.log("redux", data.user);
+      dispatch({
+        type: LOGIN_USER_SUCCESS,
+        payload: data.user,
+      });
+      setRouter(LoadingRouter);
+      navigate("/");
+    } catch (error) {
+      dispatch({
+        type: LOGIN_USER_FAILURE,
+        payload: error.response.data.message,
+        router: LoadingRouter,
+      });
+      console.log("error", error);
     }
-    dispatch({ type: LOGIN_USER_SUCCESS, payload: data.user });
-  } catch (error) {
-    dispatch({
-      type: LOGIN_USER_FAILURE,
-      payload: error.response.data.message,
-    });
-  }
-};
+  };
 
 export const registerUser = (registerData) => async (dispatch) => {
   try {
@@ -39,14 +48,21 @@ export const registerUser = (registerData) => async (dispatch) => {
     if (data.token) {
       localStorage.setItem("token", data.token);
     }
-    dispatch({ type: REGISTER_USER_SUCCESS, payload: data.token });
+    dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user });
   } catch (error) {
-    dispatch({ type: REGISTER_USER_FAILURE, payload: error.token });
+    dispatch({
+      type: REGISTER_USER_FAILURE,
+      payload: error.response.data.message,
+    });
   }
 };
 
-export const logout = () => async (dispatch) => {
+export const logoutUser = (navigate, setRouter) => async (dispatch) => {
   localStorage.removeItem("token");
-
-  dispatch({ type: LOGOUT, payload: null });
+  axiosClient.post("/logout").then(() => {
+    dispatch({ type: LOGOUT, payload: null });
+    window.location.reload(false);
+  });
+  setRouter(LoadingRouter); 
+  navigate("/");
 };

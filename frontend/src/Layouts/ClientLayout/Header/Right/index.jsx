@@ -1,11 +1,21 @@
-import { useStateContext } from "~/context/ApiContext";
 import CustomerRightCommerce from "./Customer";
 import GuestRightCommerce from "./Guest";
+import { useEffect } from "react";
 
 function RightCommerce() {
-  const { token } = useStateContext();
+  useEffect(() => {
+    console.log(localStorage.getItem("item"));
+  }, []);
 
-  return <>{token ? <CustomerRightCommerce /> : <GuestRightCommerce />}</>;
+  return (
+    <>
+      {localStorage.getItem("token") ? (
+        <CustomerRightCommerce />
+      ) : (
+        <GuestRightCommerce />
+      )}
+    </>
+  );
 }
 
 export default RightCommerce;

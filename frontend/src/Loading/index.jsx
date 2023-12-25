@@ -3,32 +3,26 @@ import { useStateContext } from "~/context/ApiContext";
 import { useEffect } from "react";
 import { CommerceRouter } from "~/Router/CommerceRoute";
 import { AdminRouter } from "~/Router/AdminRouter";
-import { axiosClient } from "~/axios/AxiosClient";
 import { StaffRouter } from "~/Router/StaffRouter";
+import { useSelector } from "react-redux";
 
 function Loading() {
-  const { token, setRouter, user, setUser } = useStateContext();
-
-  const getUser = () => {
-    axiosClient.get("/user").then((data) => {
-      setUser(data.data.data);
-    });
-  };
+  const { setRouter } = useStateContext();  
+  const { auth } = useSelector((store) => store);
 
   useEffect(() => {
-    getUser();
-    if (!token) {
+    if (!localStorage.getItem("token")) {
       setRouter(CommerceRouter);
     } else {
-      if (user?.role === "Admin") {
+      if (auth.user?.role === "Admin") {
         setRouter(AdminRouter);
-      } else if (user?.role === "Client") {
+      } else if (auth?.user?.role === "Client") {
         setRouter(CommerceRouter);
-      } else if (user?.role === "Shipper") {
+      } else if (auth?.user?.role === "Shipper") {
         setRouter(StaffRouter);
       }
     }
-  }, [user]);
+  }, [auth.user]);
 
   return (
     <div className="w-full h-screen flex items-center justify-center">

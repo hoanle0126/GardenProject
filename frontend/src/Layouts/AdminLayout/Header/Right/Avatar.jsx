@@ -1,17 +1,20 @@
 import { Avatar, Menu, MenuItem, alpha } from "@mui/material";
 import { useEffect, useState } from "react";
-import { axiosClient } from "~/axios/AxiosClient";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProfileIcon from "icons/profile";
 import GearIcon from "icons/gear";
 import LogoutIcon from "icons/logout";
-import { CommerceRouter } from "~/Router/CommerceRoute";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "~/store/Auth/action";
 import { useStateContext } from "~/context/ApiContext";
 
 const AvatarAdmin = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { setToken, setUser, user, setRouter } = useStateContext();
+  const dispatch = useDispatch();
+  const { setRouter } = useStateContext();
+  const { auth } = useSelector((store) => store);
+  const user = auth.user;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -26,18 +29,13 @@ const AvatarAdmin = () => {
   }, [location.pathname]);
 
   const logout = () => {
-    axiosClient.post("/logout").then(() => {
-      setUser(null);
-      setToken(null);
-      setRouter(CommerceRouter);
-      navigate("/");
-    });
+    dispatch(logoutUser(navigate, setRouter));
   };
 
   return (
     <>
       <Avatar
-        src={user.avatar}
+        src={user?.avatar}
         onClick={handleClick}
         className="cursor-pointer"
       />
@@ -80,7 +78,7 @@ const AvatarAdmin = () => {
       >
         <div className="flex items-center flex-col justify-center px-[20px] pb-[10px] border-b min-w-[150px]">
           <span className="text-[18px]">{user?.name}</span>
-          <span className="text-[14px] text-gray-500">{user.role?.name}</span>
+          <span className="text-[14px] text-gray-500">{user?.role}</span>
         </div>
         <MenuItem onClick={() => navigate("/profile")}>
           <div className="flex items-center gap-[10px]">

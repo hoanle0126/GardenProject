@@ -1,19 +1,21 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LogoEvergreen from "~/assets/logo";
 import ColorContext from "~/context/ColorContext";
 import ButtonStyle from "~/Components/button";
-import { createRef, useState } from "react";
+import { createRef } from "react";
 import { CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "~/store/Auth/action";
+import { useStateContext } from "~/context/ApiContext";
 
 function LoginPage() {
+  const navigate = useNavigate();
   const { auth } = useSelector((store) => store);
+  const { setRouter } = useStateContext();
   const dispatch = useDispatch();
   const emailRef = createRef();
   const passwordRef = createRef();
-  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,9 +23,7 @@ function LoginPage() {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     };
-    setLoading(true);
-    dispatch(loginUser(payload));
-    console.log("payload", auth.error);
+    dispatch(loginUser(payload, navigate, setRouter));
   };
 
   return (
@@ -74,7 +74,7 @@ function LoginPage() {
           {auth.loading ? (
             <CircularProgress color="white" size={24} />
           ) : (
-            <span>Sign in</span>
+            <span>Login</span>
           )}
         </ButtonStyle>
         <span className="text-green-main-dark">

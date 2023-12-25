@@ -9,18 +9,22 @@ import {
   alpha,
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import { useStateContext } from "~/context/ApiContext";
-import { axiosClient } from "~/axios/AxiosClient";
 import { useNavigate } from "react-router-dom";
 import ProfileIcon from "icons/profile";
 import LogoutIcon from "icons/logout";
 import OrderIcon from "icons/order";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "~/store/Auth/action";
+import { useStateContext } from "~/context/ApiContext";
 
 const AvatarCustomer = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { setToken, setUser, user } = useStateContext();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
+  const { auth } = useSelector((store) => store);
+  const user = auth.user;
+  const { setRouter } = useStateContext();
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -54,17 +58,13 @@ const AvatarCustomer = () => {
   }, [open]);
 
   const logout = () => {
-    axiosClient.post("/logout").then(() => {
-      setUser(null);
-      setToken(null);
-      navigate("/");
-    });
+    dispatch(logoutUser(navigate, setRouter));
   };
 
   return (
     <>
       <Avatar
-        src={user.avatar}
+        src={user?.avatar}
         ref={anchorRef}
         id="composition-button"
         aria-controls={open ? "composition-menu" : undefined}
@@ -150,7 +150,7 @@ const AvatarCustomer = () => {
                   <div className="flex-center min-w-[150px] px-[20px] h-[60px] flex-col border-b border-dashed">
                     <span className="text-[18px] font-[600]">{user?.name}</span>
                     <span className="text-[14px] text-gray-500">
-                      {user?.role.name}
+                      {user?.role}
                     </span>
                   </div>
                   <MenuItem
