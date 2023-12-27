@@ -2,27 +2,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Checkbox, Rating, Slider } from "@mui/material";
 import { useEffect, useState } from "react";
-import { axiosClient } from "~/axios/AxiosClient";
+import { useDispatch, useSelector } from "react-redux";
 import ButtonStyle from "~/Components/button";
+import { getAllCategories } from "~/store/Category/action";
 
 const SideBar = ({ filter, setFilter }) => {
   const [price, setPrice] = useState([0, 50]);
   const [choose, setChoose] = useState([]);
   const [rating, setRating] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const dispatch = useDispatch();
+  const { category } = useSelector((store) => store);
 
   const getCategories = () => {
-    setLoading(true);
-    axiosClient
-      .get("/categories")
-      .then((data) => {
-        setCategories(data.data.data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
+    dispatch(getAllCategories());
   };
 
   useEffect(() => {
@@ -53,10 +45,10 @@ const SideBar = ({ filter, setFilter }) => {
       <div className="w-full">
         <div className="pl-[120px] flex flex-col w-full justify-end gap-[10px] border-b py-[30px]">
           <span className="font-[600] text-green-main-dark">Categories</span>
-          {loading ? (
+          {category.loading ? (
             <span className="px-[20px]">Loading...</span>
           ) : (
-            categories.map((category) => (
+            category.categories.map((category) => (
               <span key={category.id} className="flex items-center">
                 <Checkbox
                   value={category.id}

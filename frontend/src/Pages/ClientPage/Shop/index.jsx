@@ -3,10 +3,13 @@ import SideBar from "./SideBar";
 import { CircularProgress, Pagination, Rating } from "@mui/material";
 import { useEffect, useState } from "react";
 import Sort from "./Sort";
-import { axiosClient } from "~/axios/AxiosClient";
 import ButtonStyle from "~/Components/button";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProduct } from "~/store/Product/action";
 
 function ShopPage() {
+  const dispatch = useDispatch();
+  const { product } = useSelector((store) => store);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -16,44 +19,34 @@ function ShopPage() {
     last_page: 1,
   });
 
-  const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState({
     sort: "Default",
     categories: [],
     ratings: [],
     price: [0, 50],
   });
-  const [loading, setLoading] = useState(false);
 
   const getProducts = () => {
-    setLoading(true);
-    axiosClient
-      .post(`/products/list?page=${page.current_page}`, filter)
-      .then((data) => {
-        setProducts(data.data.data);
-        setPage(data.data.meta);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    dispatch(getAllProduct(page?.current_page, filter, setPage));
   };
 
   useEffect(() => {
     getProducts();
     window.scrollTo(0, 0);
-  }, [filter,page.current_page]);
+  }, [filter, page.current_page]);
 
   return (
     <div className="pt-[60px] flex">
       <SideBar filter={filter} setFilter={setFilter} />
       <main className="flex-1 border-l">
         <Sort filter={filter} setFilter={setFilter} />
-        {loading === true ? (
+        {product?.loading === true ? (
           <section className="w-full flex-center h-[100px]">
-            <CircularProgress/>
+            <CircularProgress />
           </section>
         ) : (
           <section className="w-full max-h-[1200px] grid grid-cols-3 gap-[60px]  overflow-hidden pl-[60px] pr-[120px] py-[30px] ">
-            {products.map((product) => (
+            {product.product?.map((product) => (
               <div
                 key={product.id}
                 className="border rounded-2xl h-[350px] flex flex-col items-center p-[20px]"

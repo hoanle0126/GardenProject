@@ -1,14 +1,24 @@
 import { API_BASE_URL } from "~/config/api";
 import {
+  GET_USER_PROFILE_REQUEST,
+  GET_USER_PROFILE_SUCCESS,
   LOGIN_USER_FAILURE,
   LOGIN_USER_REQUEST,
   LOGIN_USER_SUCCESS,
   LOGOUT,
   REGISTER_USER_FAILURE,
+  REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
 } from "./actionType";
 import { axiosClient } from "~/axios/AxiosClient";
 import { LoadingRouter } from "~/Router/LoadingRouter";
+
+export const getProfile = () => async (dispatch) => {
+  dispatch({ type: GET_USER_PROFILE_REQUEST });
+  axiosClient.get("/user").then((data) => {
+    dispatch({ type: GET_USER_PROFILE_SUCCESS, payload: data.data.data });
+  });
+};
 
 export const loginUser =
   (loginData, navigate, setRouter) => async (dispatch) => {
@@ -34,11 +44,11 @@ export const loginUser =
         payload: error.response.data.message,
         router: LoadingRouter,
       });
-      console.log("error", error);
     }
   };
 
-export const registerUser = (registerData) => async (dispatch) => {
+export const registerUser = (registerData, navigate) => async (dispatch) => {
+  dispatch({ type: REGISTER_USER_REQUEST });
   try {
     const { data } = await axiosClient.post(
       `${API_BASE_URL}/signup`,
@@ -49,6 +59,7 @@ export const registerUser = (registerData) => async (dispatch) => {
       localStorage.setItem("token", data.token);
     }
     dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user });
+    navigate("/");
   } catch (error) {
     dispatch({
       type: REGISTER_USER_FAILURE,
@@ -58,11 +69,10 @@ export const registerUser = (registerData) => async (dispatch) => {
 };
 
 export const logoutUser = (navigate, setRouter) => async (dispatch) => {
-  localStorage.removeItem("token");
   axiosClient.post("/logout").then(() => {
+    localStorage.removeItem("token");
     dispatch({ type: LOGOUT, payload: null });
-    window.location.reload(false);
+    setRouter(LoadingRouter);
+    navigate("/");
   });
-  setRouter(LoadingRouter); 
-  navigate("/");
 };

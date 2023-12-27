@@ -5,6 +5,12 @@ import ColorContext from "~/context/ColorContext";
 import RightAdmin from "./Right";
 
 const Header = ({ side, setSide }) => {
+  window.Echo.channel("notifications").listen("MessageSent", (e) => {
+      console.log(e.message)
+  });
+  window.Echo.channel("notifications").listen("AuthEvent", (e) => {
+      console.log(e.user)
+  });
   return (
     <header className="h-[60px] w-full flex items-center justify-between bg-white fixed top-0 shadow-md z-[1000] px-[20px]">
       <div className="flex h-full items-center">
@@ -20,7 +26,7 @@ const Header = ({ side, setSide }) => {
         color="primary"
         onClick={() => setSide(!side)}
       />
-      <RightAdmin/>
+      <RightAdmin />
     </header>
   );
 };

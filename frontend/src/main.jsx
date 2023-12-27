@@ -7,9 +7,10 @@ import { ThemeProvider } from "@emotion/react";
 import { ApiContext } from "~/context/ApiContext";
 import ColorContext from "~/context/ColorContext";
 import "./style/main.css";
+import "./echo.jsx"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
       <ApiContext>
         <ThemeProvider theme={ColorContext}>
@@ -17,5 +18,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </ThemeProvider>
       </ApiContext>
     </Provider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

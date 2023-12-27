@@ -73,14 +73,14 @@ const SideAddProduct = ({ product, setProduct }) => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={product.category}
+              value={product.category?.id}
               label="Age"
               onChange={(e) =>
-                setProduct({ ...product, category: e.target.value })
+                setProduct({ ...product, category: {id:e.target.value} })
               }
             >
               {categoriesList?.map((category) => (
-                <MenuItem key={category.id} value={category}>
+                <MenuItem key={category.id} value={category.id}>
                   {category.name}
                 </MenuItem>
               ))}

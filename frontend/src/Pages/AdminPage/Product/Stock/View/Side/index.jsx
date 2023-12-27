@@ -11,23 +11,20 @@ import {
   Select,
 } from "@mui/material";
 import { uploadToCloudinary } from "~/utils/uploadToCloudinary";
-import { axiosClient } from "~/axios/AxiosClient";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllCategories } from "~/store/Category/action";
 
 const SideAddProduct = ({ product, setProduct }) => {
   const [selectImage, setSelectImage] = useState("");
-  const [categoriesList, setCategoriesList] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const { category } = useSelector((store) => store);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    axiosClient.get("/categories").then((data) => {
-      setCategoriesList(data.data.data);
-    });
+    dispatch(getAllCategories())
   }, []);
 
   useEffect(() => {
     setSelectImage(product.thumbnail);
-    setCategories(product.categories);
-    console.log(product)
   }, [product]);
 
   const handleSelectImage = async (e) => {
@@ -83,10 +80,10 @@ const SideAddProduct = ({ product, setProduct }) => {
               value={product.category?.id}
               label="Age"
               onChange={(e) =>
-                setProduct({ ...product, category: {id:e.target.value} })
+                setProduct({ ...product, category: { id: e.target.value } })
               }
             >
-              {categoriesList?.map((category) => (
+              {category.categories?.map((category) => (
                 <MenuItem key={category.id} value={category.id}>
                   {category.name}
                 </MenuItem>

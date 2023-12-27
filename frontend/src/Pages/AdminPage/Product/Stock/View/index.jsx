@@ -6,10 +6,13 @@ import Advanced from "./Advanced";
 import { Button, CircularProgress } from "@mui/material";
 import SideAddProduct from "./Side";
 import { axiosClient } from "~/axios/AxiosClient";
+import { useDispatch } from "react-redux";
+import { updateProduct } from "~/store/Product/action";
 
 export default function ViewProduct() {
   const id = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [tab, setTab] = useState("1");
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState({
@@ -34,10 +37,7 @@ export default function ViewProduct() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axiosClient.put(`/products/${id.id}`, product).then(() => {
-      navigate("/stock");
-    });
-    console.log("success", product);
+    dispatch(updateProduct(product, id.id, navigate));
   };
   return (
     <>
@@ -56,7 +56,9 @@ export default function ViewProduct() {
         </div>
       </section>
       {loading ? (
-        <center><CircularProgress /></center>
+        <center>
+          <CircularProgress />
+        </center>
       ) : (
         <section className="w-full grid grid-cols-12 gap-[30px]">
           <SideAddProduct product={product} setProduct={setProduct} />

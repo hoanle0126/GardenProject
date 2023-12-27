@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import General from "./General";
 import Advanced from "./Advanced";
 import { Button } from "@mui/material";
 import SideAddProduct from "./Side";
-import { axiosClient } from "~/axios/AxiosClient";
+import { useDispatch } from "react-redux";
+import { addNewProduct } from "~/store/Product/action";
 
 function AddProduct() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [tab, setTab] = useState("1");
   const [product, setProduct] = useState({
@@ -18,6 +20,7 @@ function AddProduct() {
       plant_family: "",
       source: "",
     },
+    category: { id: 1 },
     stock: {
       quantity: 0,
     },
@@ -27,14 +30,9 @@ function AddProduct() {
     },
   });
 
-  useEffect(()=>{console.log(product)},[product])
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    axiosClient.post(`/products`, product).then(() => {
-      navigate("/stock");
-    });
-    console.log("success", product);
+    dispatch(addNewProduct(product, navigate));
   };
   return (
     <>
